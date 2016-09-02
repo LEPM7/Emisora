@@ -5,19 +5,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema emisor
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema emisor
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `emisor` DEFAULT CHARACTER SET utf8 ;
+USE `emisor` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`CLIENTES`
+-- Table `emisor`.`CLIENTES`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`CLIENTES` (
+CREATE TABLE IF NOT EXISTS `emisor`.`CLIENTES` (
   `id_cliente` INT NOT NULL,
   `nombre_cliente` VARCHAR(45) NULL,
   `apellido_cliente` VARCHAR(45) NULL,
@@ -32,9 +32,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`CUENTAS`
+-- Table `emisor`.`CUENTAS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`CUENTAS` (
+CREATE TABLE IF NOT EXISTS `emisor`.`CUENTAS` (
   `id_cuenta` INT NOT NULL,
   `numero_cuenta` VARCHAR(15) NULL,
   `tipo_cuenta` VARCHAR(10) NULL,
@@ -43,16 +43,16 @@ CREATE TABLE IF NOT EXISTS `mydb`.`CUENTAS` (
   INDEX `fk_CUENTAS_CLIENTES_idx` (`CLIENTES_id_cliente` ASC),
   CONSTRAINT `fk_CUENTAS_CLIENTES`
     FOREIGN KEY (`CLIENTES_id_cliente`)
-    REFERENCES `mydb`.`CLIENTES` (`id_cliente`)
+    REFERENCES `emisor`.`CLIENTES` (`id_cliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`BANCOS_RECEPTORES`
+-- Table `emisor`.`BANCOS_RECEPTORES`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`BANCOS_RECEPTORES` (
+CREATE TABLE IF NOT EXISTS `emisor`.`BANCOS_RECEPTORES` (
   `id_banco_receptor` INT NOT NULL,
   `nombre_banco_receptor` VARCHAR(45) NULL,
   `telefono` VARCHAR(8) NULL,
@@ -63,9 +63,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`REMESAS`
+-- Table `emisor`.`REMESAS`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`REMESAS` (
+CREATE TABLE IF NOT EXISTS `emisor`.`REMESAS` (
   `id_remesa` INT NOT NULL,
   `contraseña` VARCHAR(8) NULL,
   `id_usuario` VARCHAR(20) NULL,
@@ -84,12 +84,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`REMESAS` (
   INDEX `fk_REMESAS_BANCOS_RECEPTORES1_idx` (`BANCOS_RECEPTORES_id_banco_receptor` ASC),
   CONSTRAINT `fk_REMESAS_CLIENTES1`
     FOREIGN KEY (`CLIENTES_id_cliente`)
-    REFERENCES `mydb`.`CLIENTES` (`id_cliente`)
+    REFERENCES `emisor`.`CLIENTES` (`id_cliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_REMESAS_BANCOS_RECEPTORES1`
     FOREIGN KEY (`BANCOS_RECEPTORES_id_banco_receptor`)
-    REFERENCES `mydb`.`BANCOS_RECEPTORES` (`id_banco_receptor`)
+    REFERENCES `emisor`.`BANCOS_RECEPTORES` (`id_banco_receptor`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
