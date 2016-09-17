@@ -9,6 +9,8 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 
 /**
@@ -19,13 +21,16 @@ import javax.ejb.Stateless;
 @Stateless()
 public class EmisoraService {
 
-   
+    @PersistenceContext(unitName="EmisoraPU")
+    private EntityManager em;
+    
     @WebMethod(operationName = "RegistrarCliente")     
     public String RegistrarCliente(
       @WebParam(name = "usuario")String u , @WebParam(name = "contrasena")String c, 
              @WebParam(name = "nombre_completo")String n,  @WebParam(name = "documento_identificacion")String d, 
               @WebParam(name = "correo_electronico")String co,  @WebParam(name = "no_telefono")String nt, 
                @WebParam(name = "no_cuenta")String nc ,  @WebParam(name = "tipo_cuenta")String tc){
+        
         return new String();
     }
     
