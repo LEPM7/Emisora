@@ -56,7 +56,7 @@ public class Utils {
 
     }
 
-    public static Element crearCuerpo(Etiqueta e, Document doc) {
+    private static Element crearCuerpo(Etiqueta e, Document doc) {
         Element el = doc.createElement(e.n);
         if (e.v != null) {
             el.appendChild(doc.createTextNode(e.v.toString()));

@@ -5,6 +5,7 @@
  */
 package com.entities;
 
+import com.entities.enums.RemesaEstado;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -37,36 +39,25 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Remesa.findByDpiReceptor", query = "SELECT r FROM Remesa r WHERE r.dpiReceptor = :dpiReceptor"),
     @NamedQuery(name = "Remesa.findByMontoUs", query = "SELECT r FROM Remesa r WHERE r.montoUs = :montoUs"),
     @NamedQuery(name = "Remesa.findByEstadoRemesa", query = "SELECT r FROM Remesa r WHERE r.estadoRemesa = :estadoRemesa")})
+
 public class Remesa implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
     private Integer id;
     @Size(max = 5)
-    @Column(name = "usuario")
     private String usuario;
     @Size(max = 5)
-    @Column(name = "contrasena")
     private String contrasena;
     @Size(max = 500)
-    @Column(name = "nombre_receptor")
     private String nombreReceptor;
     @Size(max = 200)
-    @Column(name = "correo_receptor")
     private String correoReceptor;
     @Size(max = 200)
-    @Column(name = "dpi_receptor")
     private String dpiReceptor;
-    @Column(name = "monto_us")
-    private Long montoUs;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    private Double montoUs;
     @Size(max = 10)
-    @Column(name = "estado_remesa")
     private String estadoRemesa;
-    @JoinColumn(name = "cliente", referencedColumnName = "id")
-    @ManyToOne(optional = false)
     private Cliente cliente;
 
     public Remesa() {
@@ -76,6 +67,10 @@ public class Remesa implements Serializable {
         this.id = id;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
     public Integer getId() {
         return id;
     }
@@ -84,6 +79,7 @@ public class Remesa implements Serializable {
         this.id = id;
     }
 
+    @Column(name = "usuario")
     public String getUsuario() {
         return usuario;
     }
@@ -92,6 +88,7 @@ public class Remesa implements Serializable {
         this.usuario = usuario;
     }
 
+    @Column(name = "contrasena")
     public String getContrasena() {
         return contrasena;
     }
@@ -100,6 +97,7 @@ public class Remesa implements Serializable {
         this.contrasena = contrasena;
     }
 
+    @Column(name = "nombre_receptor")
     public String getNombreReceptor() {
         return nombreReceptor;
     }
@@ -108,6 +106,7 @@ public class Remesa implements Serializable {
         this.nombreReceptor = nombreReceptor;
     }
 
+    @Column(name = "correo_receptor")
     public String getCorreoReceptor() {
         return correoReceptor;
     }
@@ -116,6 +115,7 @@ public class Remesa implements Serializable {
         this.correoReceptor = correoReceptor;
     }
 
+    @Column(name = "dpi_receptor")
     public String getDpiReceptor() {
         return dpiReceptor;
     }
@@ -124,14 +124,16 @@ public class Remesa implements Serializable {
         this.dpiReceptor = dpiReceptor;
     }
 
-    public Long getMontoUs() {
+    @Column(name = "monto_us")
+    public Double getMontoUs() {
         return montoUs;
     }
 
-    public void setMontoUs(Long montoUs) {
+    public void setMontoUs(Double montoUs) {
         this.montoUs = montoUs;
     }
 
+    @Column(name = "estado_remesa")
     public String getEstadoRemesa() {
         return estadoRemesa;
     }
@@ -140,6 +142,8 @@ public class Remesa implements Serializable {
         this.estadoRemesa = estadoRemesa;
     }
 
+    @JoinColumn(name = "cliente", referencedColumnName = "id")
+    @ManyToOne(optional = false)
     public Cliente getCliente() {
         return cliente;
     }
@@ -168,9 +172,27 @@ public class Remesa implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @param estado
+     * @return
+     */
+    public String getEstado(String estado) {
+        if (estado.toLowerCase().contains("enviada")) {
+            return RemesaEstado.ENVIADA.toString();
+        }
+        if (estado.toLowerCase().contains("recibida")) {
+            return RemesaEstado.RECIBIDA.toString();
+        }
+        if (estado.toLowerCase().contains("cobrada")) {
+            return RemesaEstado.COBRADA.toString();
+        }
+        return RemesaEstado.EN_PROCESO.toString();
+    }
+
     @Override
     public String toString() {
         return "com.entities.Remesa[ id=" + id + " ]";
     }
-    
+
 }
